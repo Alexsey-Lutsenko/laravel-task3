@@ -1,7 +1,7 @@
 <template>
     <teleport to="body">
         <div class="wrapper">
-            <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <aside class="main-sidebar sidebar-dark-primary elevation-4" style="height: auto; overflow: hidden">
                 <div class="brand-link mx-3 d-flex">
                     <div class="logo">
                         <i class="pi pi-cog"></i>
@@ -25,8 +25,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.sidebar {
-    min-height: 93.7vh;
+.main-sidebar {
+    min-height: 100vh !important;
     font-size: 16px;
 }
 .brand-link {

@@ -45,8 +45,8 @@ export default {
         async index({ commit }) {
             try {
                 store.commit("addLoader", { root: true });
-                const { data } = await axios.get("api/categories");
-                commit("addTitles", data.data);
+                const { data } = await axios.get("/api/categories");
+                commit("addCategories", data.data);
                 commit("remuveError");
             } catch (e) {
                 commit("addErrors", errorHandler(e));
@@ -57,7 +57,7 @@ export default {
 
         async store({ commit, dispatch }, payload) {
             try {
-                await axios.post("api/categories", payload);
+                await axios.post("/api/categories", payload);
                 await dispatch("index");
             } catch (e) {
                 commit("addErrors", errorHandler(e));
@@ -66,7 +66,7 @@ export default {
 
         async update({ commit, dispatch }, payload) {
             try {
-                await axios.patch(`api/categories/${payload.id}`, payload);
+                await axios.patch(`/api/categories/${payload.id}`, payload);
                 commit("remuveError");
             } catch (e) {
                 commit("addErrors", errorHandler(e));
@@ -75,7 +75,8 @@ export default {
 
         async destroy({ commit, dispatch }, id) {
             try {
-                await axios.delete(`api/categories/${id}`);
+                await axios.delete(`/api/categories/${id}`);
+                await dispatch("index");
                 commit("remuveError");
             } catch (e) {
                 commit("addErrors", errorHandler(e));

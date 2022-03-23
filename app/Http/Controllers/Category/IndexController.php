@@ -10,7 +10,7 @@ class IndexController extends Controller
 {
     public function __invoke()
     {
-        $categories = Category::all();
+        $categories = Category::oldest('id')->get();
 
         return CategoryResource::collection($categories);
     }

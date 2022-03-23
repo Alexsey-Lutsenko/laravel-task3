@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Tag;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Tag\StoreRequest;
-use App\Http\Resources\Tag\CategoryResource;
-use Illuminate\Http\Request;
+use App\Http\Resources\Tag\TagResource;
 
 class StoreController extends BaseController
 {
@@ -15,6 +13,6 @@ class StoreController extends BaseController
 
         $tag = $this->service->store($data);
 
-        return new CategoryResource($tag);
+        return new TagResource($tag);
     }
 }

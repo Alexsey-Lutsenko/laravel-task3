@@ -1,7 +1,7 @@
 import Vuex from "vuex"
-import articleModule from "./modules/article.module";
-import categoryModule from "./modules/category.module";
-import tagModule from "./modules/tag.module";
+import article from "./modules/article.module";
+import category from "./modules/category.module";
+import tag from "./modules/tag.module";
 
 export default new Vuex.Store({
     state() {
@@ -22,5 +22,5 @@ export default new Vuex.Store({
             state.loader = false;
         },
     },
-    modules: {articleModule, categoryModule, tagModule}
+    modules: {article, category, tag}
 })
