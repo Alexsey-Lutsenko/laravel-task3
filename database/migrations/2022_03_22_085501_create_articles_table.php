@@ -16,9 +16,10 @@ return new class extends Migration
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
             $table->string('article');
-            $table->text('description');
-            $table->text('content');
-            $table->string('img_preview');
+            $table->text('description')->nullable();
+            $table->text('content')->nullable();
+            $table->string('path_preview');
+            $table->string('url_preview');
             $table->timestamps();
         });
     }

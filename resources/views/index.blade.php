@@ -17,10 +17,10 @@
 
 <script src="https://kit.fontawesome.com/66dfc7db4d.js" crossorigin="anonymous"></script>
 <script src="{{ asset('js/app.js') }}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+<!-- <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('dist/js/adminlte.js') }}"></script>
-<script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
+<script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script> -->
 </body>
 </html>

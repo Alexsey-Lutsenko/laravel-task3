@@ -33,6 +33,10 @@ Route::group(['namespace' => 'Category', 'prefix' => 'categories'], function () 
 });
 
 Route::group(['namespace' => 'Article', 'prefix' => 'articles'], function () {
+    Route::group(['namespace' => 'Image', 'prefix' => 'images'], function () {
+        Route::post('/', 'StoreController');
+    });
+
     Route::get('/', 'IndexController');
     Route::post('/', 'StoreController');
     Route::patch('/{article}', 'UpdateController');

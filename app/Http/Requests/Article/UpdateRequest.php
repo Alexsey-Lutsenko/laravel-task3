@@ -24,10 +24,11 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'article' => 'required|unique:articles,article|string|max:255',
+            'article' => 'filled|string|max:255',
             'description' => 'string',
             'content' => 'string',
-            'img_preview' => 'string',
+            'img_content_array' => '',
+            'img_preview' => '',
         ];
     }
 }

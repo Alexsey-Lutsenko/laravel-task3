@@ -11,4 +11,7 @@ class Article extends Model
 
     protected $guarded = false;
 
+    public function contentImages() {
+        return $this->belongsToMany(ContentImage::class, 'article_id', 'id');
+    }
 }

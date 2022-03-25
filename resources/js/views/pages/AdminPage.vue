@@ -1,7 +1,7 @@
 <template>
     <div class="content-wrapper">
         <div class="content">
-            <div class="container-fluid p-3 pt-5">
+            <div class="container-fluid p-3 pt-5 min-vh-100">
                 <router-view></router-view>
             </div>
         </div>

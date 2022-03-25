@@ -8,8 +8,8 @@ export default {
         return {
             articles: [],
             errors: [],
-            errorCount: 0
-        }
+            errorCount: 0,
+        };
     },
     getters: {
         getArticles(state) {
@@ -20,15 +20,15 @@ export default {
         },
         getErrorCount(state) {
             return state.errorCount;
-        }
+        },
     },
     mutations: {
         addArticles(state, payload) {
             state.articles = payload;
         },
         addErrors(state, requests) {
-            if(requests.message) {
-                console.error('Error: ' + requests.message)
+            if (requests.message) {
+                console.error("Error: " + requests.message);
             }
 
             if (requests.errors) {
@@ -66,7 +66,8 @@ export default {
 
         async update({ commit, dispatch }, payload) {
             try {
-                await axios.patch(`/api/articles/${payload.id}`, payload);
+                await axios.post(`/api/articles/${payload.id}`, payload.formData);
+                await dispatch("index");
                 commit("remuveError");
             } catch (e) {
                 commit("addErrors", errorHandler(e));
@@ -81,6 +82,6 @@ export default {
             } catch (e) {
                 commit("addErrors", errorHandler(e));
             }
-        }
-    }
-}
+        },
+    },
+};
