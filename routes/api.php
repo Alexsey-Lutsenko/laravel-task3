@@ -18,6 +18,11 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
+Route::group(['namespace' => 'User', 'prefix' => 'users'], function () {
+    Route::get('/', 'IndexController');
+    Route::post('/login', 'LoginController');
+});
+
 Route::group(['namespace' => 'Tag', 'prefix' => 'tags'], function () {
     Route::get('/', 'IndexController');
     Route::post('/', 'StoreController');

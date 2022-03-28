@@ -23,6 +23,7 @@ class Service
             'url_preview' => isset($path) ? url('/storage/' . $path) : "",
             'article' => $data['article'],
             'description' => $data['description'],
+            'user_id' => $data['user_id']
         ]);
 
         return $newArticle;
@@ -46,7 +47,7 @@ class Service
                 Storage::disk('public')->delete($imgDelete->path);
                 $imgDelete->delete();
             }
-            
+
             $article->update([
                 'content' => $data['content'],
             ]);
@@ -54,7 +55,14 @@ class Service
             return $article;
         }
 
-        
+        if(isset($data['is_publish'])) {
+            $article->update([
+                'is_publish' => $data['is_publish'],
+            ]);
+
+            return $article;
+        }
+
         if(isset($data['img_preview'])) {
             $image = $data['img_preview'];
             $currentImg = $article->path_preview;

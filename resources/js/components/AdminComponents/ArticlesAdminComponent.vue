@@ -5,7 +5,7 @@
         <div class="my-5 w-75">
             <Toolbar class="mb-4">
                 <template #start>
-                    <Button label="Добавить" icon="pi pi-plus" class="p-button-success mr-2" @click="openNew" />
+                    <Button label="Добавить" icon="pi pi-plus" class="p-button-success mr-2" @click="openNew" :disabled="!isAuthor && !isAdmin" />
                 </template>
             </Toolbar>
 
@@ -38,10 +38,29 @@
                 </Column>
                 <Column field="article" header="Статья"></Column>
                 <Column field="description" header="Описание"></Column>
-                <Column :exportable="false" style="max-width: 8rem">
+                <Column :exportable="false" style="max-width: 10rem">
                     <template #body="slotProps">
-                        <Button icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" @click="editArticle(slotProps.data)" />
-                        <Button icon="pi pi-trash" class="p-button-rounded p-button-danger" @click="confirmDeleteArticle(slotProps.data)" />
+                        <Button
+                            icon="pi pi-eye"
+                            :class="[
+                                slotProps.data.is_publish == 1 ? 'p-button-success' : 'p-button-danger',
+                                'p-button-rounded p-button-outlined mr-2',
+                            ]"
+                            @click="published(slotProps.data.id, slotProps.data.is_publish)"
+                            :disabled="!isAuthor && !isAdmin"
+                        />
+                        <Button
+                            icon="pi pi-pencil"
+                            class="p-button-rounded p-button-success mr-2"
+                            @click="editArticle(slotProps.data)"
+                            :disabled="!isAuthor && !isAdmin"
+                        />
+                        <Button
+                            icon="pi pi-trash"
+                            class="p-button-rounded p-button-danger"
+                            @click="confirmDeleteArticle(slotProps.data)"
+                            :disabled="!isAdmin"
+                        />
                     </template>
                 </Column>
             </DataTable>
@@ -133,7 +152,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, watch } from "vue";
+import { ref, computed, onMounted, watch, onBeforeUnmount } from "vue";
 import { useStore } from "vuex";
 import Tiptap from "../TipTap/Tiptap";
 
@@ -153,6 +172,10 @@ export default {
         const imageLoad = ref({});
         const editor = ref(null);
 
+        const isEditor = ref();
+        const isAuthor = ref();
+        const isAdmin = ref();
+
         const articles = computed(() => store.getters["article/getArticles"]);
         const errors = computed(() => store.getters["article/getErrors"]);
         const loading = computed(() => store.getters["getLoader"]);
@@ -160,6 +183,17 @@ export default {
 
         onMounted(async () => {
             await store.dispatch("article/index");
+
+            const user = JSON.parse(localStorage.getItem("user"));
+
+            isEditor.value = _.intersection(user.permissions, [1]).length === 1;
+            isAuthor.value = _.intersection(user.permissions, [3, 4, 5]).length === 3;
+            isAdmin.value = _.intersection(user.permissions, [1, 2, 3, 4, 5]).length === 5;
+        });
+
+        onBeforeUnmount(() => {
+            store.commit("article/addArticles", []);
+            store.commit("article/addArticle", {});
         });
 
         const openNew = () => {
@@ -219,7 +253,9 @@ export default {
         };
 
         const onRowSelect = () => {
-            displayContentDialog.value = true;
+            if (isEditor.value || isAdmin.value) {
+                displayContentDialog.value = true;
+            }
         };
 
         const inputEditor = () => {
@@ -269,6 +305,18 @@ export default {
             isImgLoad,
             inputEditor,
             editor,
+            isEditor,
+            isAuthor,
+            isAdmin,
+            published: async (id, published) => {
+                const isPublished = published === 1 ? 0 : 1;
+
+                const formData = new FormData();
+                formData.append("is_publish", isPublished);
+                formData.append("_method", "PATCH");
+
+                await store.dispatch("article/update", { id: id, formData: formData });
+            },
         };
     },
 };

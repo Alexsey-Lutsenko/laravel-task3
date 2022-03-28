@@ -7,6 +7,7 @@ export default {
     state() {
         return {
             articles: [],
+            article: {},
             errors: [],
             errorCount: 0,
         };
@@ -14,6 +15,9 @@ export default {
     getters: {
         getArticles(state) {
             return state.articles;
+        },
+        getArticle(state) {
+            return state.article;
         },
         getErrors(state) {
             return state.errors;
@@ -25,6 +29,9 @@ export default {
     mutations: {
         addArticles(state, payload) {
             state.articles = payload;
+        },
+        addArticle(state, payload) {
+            state.article = payload;
         },
         addErrors(state, requests) {
             if (requests.message) {
@@ -42,11 +49,14 @@ export default {
         },
     },
     actions: {
-        async index({ commit }) {
+        async index({ commit }, payload) {
             try {
                 store.commit("addLoader", { root: true });
-                const { data } = await axios.get("/api/articles");
+                const { data } = await axios.get("/api/articles", { params: payload });
                 commit("addArticles", data.data);
+                if (payload) {
+                    commit("addArticle", data.data[0]);
+                }
                 commit("remuveError");
             } catch (e) {
                 commit("addErrors", errorHandler(e));
@@ -57,7 +67,9 @@ export default {
 
         async store({ commit, dispatch }, payload) {
             try {
-                await axios.post("/api/articles", payload);
+                const user = JSON.parse(localStorage.getItem("user"));
+                console.log(user.id);
+                await axios.post("/api/articles", payload, { params: { user_id: user.id } });
                 await dispatch("index");
             } catch (e) {
                 commit("addErrors", errorHandler(e));

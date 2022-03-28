@@ -20,6 +20,9 @@ class ArticleResource extends JsonResource
             'description' => $this->description,
             'content' => $this->content,
             'url_preview' => $this->url_preview,
+            'is_publish' => $this->is_publish,
+            'user_id' => $this->user_id,
+            'user' => $this->user->name
         ];
     }
 }

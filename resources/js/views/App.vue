@@ -3,24 +3,26 @@
 </template>
 
 <script>
-import {computed} from "vue"
+import { computed } from "vue";
 import { useRoute } from "vue-router";
-import AdminLayout from "./layouts/AdminLayout"
+import AdminLayout from "./layouts/AdminLayout";
+import MainLayout from "./layouts/MainLayout";
+import LoginLayout from "./layouts/LoginLayout";
 
 export default {
     setup() {
         const route = useRoute();
 
         return {
-            layout: computed(() => route.meta.layout)
-        }
+            layout: computed(() => route.meta.layout),
+        };
     },
     components: {
-        AdminLayout
-    }
-}
+        AdminLayout,
+        MainLayout,
+        LoginLayout,
+    },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

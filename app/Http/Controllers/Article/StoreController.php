@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Article;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Article\StoreRequest;
 use App\Http\Resources\Article\ArticleResource;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class StoreController extends BaseController
@@ -13,7 +14,11 @@ class StoreController extends BaseController
     {
         $data = $request->validated();
 
-        $article = $this->service->store($data);
+        $user = User::where('id', '=', $data['user_id'])->first();
+
+        if($user->hasAllPermissions(['create articles'])) {
+            $article = $this->service->store($data);
+        }
 
         return new ArticleResource($article);
     }

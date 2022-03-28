@@ -167,8 +167,7 @@ export default {
     margin-top: 1em;
     min-height: 400px;
     padding: 1em;
-    border: 1px solid #beb8b8;
-    border-radius: 3px;
+    border: none;
 }
 .ProseMirror-focused:focus-visible {
     outline: none;

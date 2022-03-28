@@ -29,6 +29,7 @@ class UpdateRequest extends FormRequest
             'content' => 'string',
             'img_content_array' => '',
             'img_preview' => '',
+            'is_publish' => 'filled|numeric'
         ];
     }
 }
