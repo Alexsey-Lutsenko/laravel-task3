@@ -18,6 +18,7 @@ export default {
         });
 
         onBeforeUnmount(() => {
+            store.commit("article/addArticles", []);
             store.commit("article/addArticle", {});
         });
 

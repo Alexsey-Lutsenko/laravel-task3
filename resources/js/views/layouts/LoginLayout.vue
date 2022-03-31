@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex justify-content-center my-2">
-        <h3>Страница входа</h3>
+        <h3>Авторизация</h3>
     </div>
     <hr class="m-0" />
     <div class="container-fluid">

@@ -35,6 +35,8 @@ export default {
         const articles = computed(() => store.getters["article/getArticles"]);
 
         onMounted(async () => {
+            await store.dispatch("user/email");
+
             await store.dispatch("article/index", { is_publish: 1 });
         });
 

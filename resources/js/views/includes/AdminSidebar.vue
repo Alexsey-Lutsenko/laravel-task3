@@ -5,7 +5,7 @@
                 <li class="nav-item mb-3">
                     <router-link :to="'/'" class="nav-link">
                         <i class="pi pi-instagram"></i>
-                        <p class="mx-2">Главная</p>
+                        <p class="mx-2">WOKO</p>
                     </router-link>
                 </li>
 

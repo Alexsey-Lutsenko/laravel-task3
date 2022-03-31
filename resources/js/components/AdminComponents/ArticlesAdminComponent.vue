@@ -184,11 +184,11 @@ export default {
         onMounted(async () => {
             await store.dispatch("article/index");
 
-            const user = JSON.parse(localStorage.getItem("user"));
+            const permissions = JSON.parse(localStorage.getItem("permissions"));
 
-            isEditor.value = _.intersection(user.permissions, [1]).length === 1;
-            isAuthor.value = _.intersection(user.permissions, [3, 4, 5]).length === 3;
-            isAdmin.value = _.intersection(user.permissions, [1, 2, 3, 4, 5]).length === 5;
+            isEditor.value = _.intersection(permissions, [1]).length === 1;
+            isAuthor.value = _.intersection(permissions, [3, 4, 5]).length === 3;
+            isAdmin.value = _.intersection(permissions, [1, 2, 3, 4, 5]).length === 5;
         });
 
         onBeforeUnmount(() => {

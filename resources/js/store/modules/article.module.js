@@ -52,11 +52,12 @@ export default {
         async index({ commit }, payload) {
             try {
                 store.commit("addLoader", { root: true });
-                const { data } = await axios.get("/api/articles", { params: payload });
-                commit("addArticles", data.data);
-                if (payload) {
-                    commit("addArticle", data.data[0]);
-                }
+                await axios.get("/api/articles", { params: payload }).then((res) => {
+                    commit("addArticles", res?.data?.data);
+                    if (payload) {
+                        commit("addArticle", res?.data?.data[0]);
+                    }
+                });
                 commit("remuveError");
             } catch (e) {
                 commit("addErrors", errorHandler(e));

@@ -7,6 +7,7 @@ use App\Http\Resources\Article\ArticleResource;
 use App\Http\Requests\Article\FilterRequest;
 use App\Http\Filters\ArticleFilter;
 use App\Models\Article;
+use Illuminate\Support\Facades\Auth;
 
 class IndexController extends Controller
 {

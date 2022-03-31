@@ -8,8 +8,8 @@ export default {
         return {
             tags: [],
             errors: [],
-            errorCount: 0
-        }
+            errorCount: 0,
+        };
     },
     getters: {
         getTags(state) {
@@ -20,15 +20,15 @@ export default {
         },
         getErrorCount(state) {
             return state.errorCount;
-        }
+        },
     },
     mutations: {
         addTags(state, payload) {
             state.tags = payload;
         },
         addErrors(state, requests) {
-            if(requests.message) {
-                console.error('Error: ' + requests.message)
+            if (requests.message) {
+                console.error("Error: " + requests.message);
             }
 
             if (requests.errors) {
@@ -81,6 +81,6 @@ export default {
             } catch (e) {
                 commit("addErrors", errorHandler(e));
             }
-        }
-    }
-}
+        },
+    },
+};

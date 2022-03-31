@@ -4,6 +4,7 @@ import MainPage from "../views/pages/MainPage";
 import ArticlePage from "../views/pages/ArticlePage";
 import ArticleContentPage from "../views/pages/ArticleContentPage";
 import LoginPage from "../views/pages/LoginPage";
+import RegistrationPage from "../views/pages/RegistrationPage";
 import StatisticPage from "../views/pages/StatisticPage";
 import NotFoundPage from "../views/pages/NotFoundPage";
 import CategoryAdminComponent from "../components/AdminComponents/CategoryAdminComponent";
@@ -13,7 +14,7 @@ import ArticlesAdminComponent from "../components/AdminComponents/ArticlesAdminC
 const routes = [
     {
         path: "/login",
-        name: LoginPage,
+        name: "LoginPage",
         component: LoginPage,
         meta: {
             layout: "login",
@@ -22,8 +23,18 @@ const routes = [
         },
     },
     {
+        path: "/registration",
+        name: "RegistrationPage",
+        component: RegistrationPage,
+        meta: {
+            layout: "login",
+            auth: false,
+            admin: false,
+        },
+    },
+    {
         path: "/",
-        name: MainPage,
+        name: "MainPage",
         component: MainPage,
         meta: {
             layout: "main",
@@ -33,7 +44,7 @@ const routes = [
     },
     {
         path: "/article",
-        name: ArticlePage,
+        name: "ArticlePage",
         component: ArticlePage,
         meta: {
             layout: "main",
@@ -43,24 +54,23 @@ const routes = [
     },
     {
         path: "/statistic",
-        name: StatisticPage,
+        name: "StatisticPage",
         component: StatisticPage,
         meta: {
             layout: "main",
             auth: true,
             admin: false,
-            chiesEditor: true,
         },
     },
     {
         path: "/admin",
-        name: AdminPage,
+        name: "AdminPage",
         component: AdminPage,
         redirect: "/admin/articles",
         children: [
-            { path: "category", name: CategoryAdminComponent, component: CategoryAdminComponent },
-            { path: "tags", name: TagsAdminComponent, component: TagsAdminComponent },
-            { path: "articles", name: ArticlesAdminComponent, component: ArticlesAdminComponent },
+            { path: "category", name: "CategoryAdminComponent", component: CategoryAdminComponent },
+            { path: "tags", name: "TagsAdminComponent", component: TagsAdminComponent },
+            { path: "articles", name: "ArticlesAdminComponent", component: ArticlesAdminComponent },
         ],
         meta: {
             layout: "admin",
@@ -70,7 +80,7 @@ const routes = [
     },
     {
         path: "/article/:id",
-        name: ArticleContentPage,
+        name: "ArticleContentPage",
         component: ArticleContentPage,
         meta: {
             layout: "main",
@@ -80,7 +90,7 @@ const routes = [
     },
     {
         path: "/:notFound(.*)",
-        name: NotFoundPage,
+        name: "NotFoundPage",
         component: NotFoundPage,
         meta: {
             layout: "main",
@@ -98,26 +108,39 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+    const token = localStorage.getItem("x_xsrf_token");
+    const permissions = localStorage.getItem("permissions");
     const requireAuth = to.meta.auth;
     const requireAdmin = to.meta.admin;
-    const requireCiefEditor = to.meta.chiesEditor;
-    const login = !!localStorage.getItem("user");
-    const isAdmin = JSON.parse(localStorage.getItem("user"))?.permissions.length > 0 ? true : false;
-    const isChiefEditor = _.includes(JSON.parse(localStorage.getItem("user"))?.permissions, 6) ? true : false;
+    let isAdmin = false;
+    let isChiefEditor = false;
 
-    if (requireAuth && !login) {
-        next("/login?message=auth");
-    } else if (!isChiefEditor && requireCiefEditor) {
-        next("/");
-    } else if (!isAdmin && requireAdmin) {
-        next("/");
-    } else if (!requireAuth && login) {
-        next("/");
-    } else if (requireAuth && login) {
-        next();
-    } else {
-        next();
+    if (!!permissions) {
+        isAdmin = permissions?.length > 0 ? true : false;
+        isChiefEditor = _.includes(permissions, 6) ? true : false;
     }
+
+    if (!token) {
+        if (!requireAuth) {
+            return next();
+        } else {
+            return next({ name: "LoginPage" });
+        }
+    }
+
+    if (token) {
+        if (!requireAuth) {
+            return next({ name: "MainPage" });
+        } else if (to.name === "StatisticPage" && isChiefEditor) {
+            return next();
+        } else if (requireAdmin && isAdmin) {
+            return next();
+        } else {
+            return next();
+        }
+    }
+
+    next();
 });
 
 export default router;
