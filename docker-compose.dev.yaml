@@ -26,6 +26,8 @@ services:
       - DB_DATABASE=$DB_DATABASE
       - DB_USERNAME=$DB_USERNAME
       - DB_PASSWORD=$DB_PASSWORD
+      - SESSION_DOMAIN=$SESSION_DOMAIN
+      - SANCTUM_STATEFUL_DOMAINS=$SANCTUM_STATEFUL_DOMAINS
     volumes:
       - ./:/var/www/
     depends_on:
