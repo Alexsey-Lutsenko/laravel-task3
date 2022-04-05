@@ -34,7 +34,7 @@ dev_deploy:
     - docker exec ${CONTAINER_PREFIX}_app composer install
     - docker exec ${CONTAINER_PREFIX}_app npm install
     - docker exec ${CONTAINER_PREFIX}_app npm run dev
-    - docker exec ${CONTAINER_PREFIX}_app php artisan migrate
+    - docker exec ${CONTAINER_PREFIX}_app php artisan migrate --seed
     - docker exec ${CONTAINER_PREFIX}_app php artisan cache:clear
     - docker exec ${CONTAINER_PREFIX}_app php artisan config:cache
     - docker exec ${CONTAINER_PREFIX}_app php artisan route:cache
