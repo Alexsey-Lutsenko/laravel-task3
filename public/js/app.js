@@ -30951,15 +30951,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return store.dispatch("user/email");
-
-            case 2:
-              _context.next = 4;
               return store.dispatch("article/index", {
                 is_publish: 1
               });
 
-            case 4:
+            case 2:
             case "end":
               return _context.stop();
           }
@@ -33016,6 +33012,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": "mt-3"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       src: article.url_preview,
+      alt: "image",
       "class": "img-preview"
     }, null, 8
     /* PROPS */
@@ -34079,41 +34076,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     store: function store(_ref2, payload) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        var commit, dispatch, user;
+        var commit, dispatch;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 commit = _ref2.commit, dispatch = _ref2.dispatch;
                 _context2.prev = 1;
-                user = JSON.parse(localStorage.getItem("user"));
-                console.log(user.id);
-                _context2.next = 6;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/api/articles", payload, {
-                  params: {
-                    user_id: user.id
-                  }
-                });
+                _context2.next = 4;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/api/articles", payload);
 
-              case 6:
-                _context2.next = 8;
+              case 4:
+                _context2.next = 6;
                 return dispatch("index");
 
-              case 8:
-                _context2.next = 13;
+              case 6:
+                _context2.next = 11;
                 break;
 
-              case 10:
-                _context2.prev = 10;
+              case 8:
+                _context2.prev = 8;
                 _context2.t0 = _context2["catch"](1);
                 commit("addErrors", _utils_errorHandler__WEBPACK_IMPORTED_MODULE_3___default()(_context2.t0));
 
-              case 13:
+              case 11:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[1, 10]]);
+        }, _callee2, null, [[1, 8]]);
       }))();
     },
     update: function update(_ref3, payload) {
@@ -40222,7 +40213,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.img-preview[data-v-0a3092cb] {\r\n    width: 50px;\r\n    height: 50px;\r\n    border-radius: 3px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.img-preview[data-v-0a3092cb] {\n    width: 50px;\n    height: 50px;\n    border-radius: 3px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

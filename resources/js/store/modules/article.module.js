@@ -68,9 +68,7 @@ export default {
 
         async store({ commit, dispatch }, payload) {
             try {
-                const user = JSON.parse(localStorage.getItem("user"));
-                console.log(user.id);
-                await axios.post("/api/articles", payload, { params: { user_id: user.id } });
+                await axios.post("/api/articles", payload);
                 await dispatch("index");
             } catch (e) {
                 commit("addErrors", errorHandler(e));

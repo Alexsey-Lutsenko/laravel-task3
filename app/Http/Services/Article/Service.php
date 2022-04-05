@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Service
 {
-    public function store($data)
+    public function store($data, $user)
     {
         $image = $data['img_preview'];
 
@@ -23,7 +23,7 @@ class Service
             'url_preview' => isset($path) ? url('/storage/' . $path) : "",
             'article' => $data['article'],
             'description' => $data['description'],
-            'user_id' => $data['user_id']
+            'user_id' => $user['id']
         ]);
 
         return $newArticle;

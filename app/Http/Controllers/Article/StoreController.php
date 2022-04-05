@@ -7,6 +7,7 @@ use App\Http\Requests\Article\StoreRequest;
 use App\Http\Resources\Article\ArticleResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StoreController extends BaseController
 {
@@ -14,10 +15,10 @@ class StoreController extends BaseController
     {
         $data = $request->validated();
 
-        $user = User::where('id', '=', $data['user_id'])->first();
+        $user = Auth::user();
 
         if($user->hasAllPermissions(['create articles'])) {
-            $article = $this->service->store($data);
+            $article = $this->service->store($data, $user);
         }
 
         return new ArticleResource($article);
