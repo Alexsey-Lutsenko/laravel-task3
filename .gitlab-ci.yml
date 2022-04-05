@@ -21,6 +21,7 @@ print_second:
   script:
     - echo "Hello world second"
 
+
 print_third:
   stage: third
   tags:
