@@ -7,13 +7,12 @@ RUN apt-get update && apt-get install -y \
       libzip-dev \
       zip unzip \
       git && \
-      docker-php-ext-install pdo pgsql pdo_pgsql && \
+      docker-php-ext-install pdo_pgsql && \
       docker-php-ext-install bcmath && \
       docker-php-ext-install gd && \
       docker-php-ext-install zip && \
       apt-get clean && \
       rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
 
 COPY ./_docker/app/php.ini /usr/local/etc/php/conf.d/php.ini
 
@@ -22,25 +21,9 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN curl -sS https://getcomposer.org/installer | php -- \
     --filename=composer \
     --install-dir=/usr/local/bin
-# alias
-RUN echo "alias a='artisan'" >> /root/.bashrc
 
+# Install node.js
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN apt-get install -y nodejs
-
-RUN composer install \
-      --no-interaction \
-      --no-plugins \
-      --no-suggest \
-      --no-scripts \
-      --no-autoloader \
-      --prefer-dist
-
-
-RUN composer dump-autoload  --no-scripts --optimize && \
-    chown -R root:www-data /var/www && \
-    chmod 755 -R /var/www && \
-    chmod -R 775 /var/www/storage && \
-    chmod -R 775 /var/www/bootstrap/cache
 
 WORKDIR /var/www
